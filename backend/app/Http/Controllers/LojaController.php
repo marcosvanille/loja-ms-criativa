@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\produtos;
-use App\Models\cliente;
+use App\Models\clientes;
 class LojaController extends Controller
 {
     /**
@@ -16,7 +16,7 @@ class LojaController extends Controller
     {
 
         $produtos = produtos::all();
-        $cliente = cliente::all();
+        $cliente = clientes::all();
         return view('loja.index')->with(['produtoTeste' => $produtos,  'clientes'=>$cliente]);
     }
 
