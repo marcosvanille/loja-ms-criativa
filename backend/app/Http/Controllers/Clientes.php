@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\produtos as ProdutosModel;
+use App\Services\ClientesService;
 use Illuminate\Http\Request;
 use App\Models\clientes as ClientesModel;
 
@@ -12,9 +14,16 @@ class Clientes extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    private $clientesService;
+
+    public function __construct(ClientesService $clientesService)
+    {
+        $this->clientesService = $clientesService;
+    }
+
     public function index()
     {
-        $cliente = ClientesModel::all();
+        $cliente = self::getClientesService()->index();
         return response()->json($cliente);
     }
 
@@ -31,18 +40,19 @@ class Clientes extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $cliente = self::getClientesService()->store($request);
+        return response()->json($cliente);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -53,7 +63,7 @@ class Clientes extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -64,23 +74,31 @@ class Clientes extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        $cliente = self::getClientesService()->update($request, $id);
+        return response()->json($cliente);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        $cliente = self::getClientesService()->destroy($id);
+        return response()->json($cliente);
     }
+
+    public function getClientesService()
+    {
+        return $this->clientesService;
+    }
+
 }
