@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ProdutosService;
 use Illuminate\Http\Request;
 use App\Models\produtos as ProdutosModel;
 
@@ -12,10 +13,17 @@ class Produtos extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    private $produtosService;
+
+    public function __construct(ProdutosService $produtosService)
+    {
+        $this->produtosService = $produtosService;
+    }
+
     public function index()
     {
-        $produtos = ProdutosModel::all();
-        return response()->json($produtos);
+        $produto = self::getProdutosService()->index();
+        return response()->json($produto);
     }
 
     /**
@@ -36,12 +44,7 @@ class Produtos extends Controller
      */
     public function store(Request $request)
     {
-        $produto = new ProdutosModel;
-        $produto->nome = $request->nome;
-        $produto->qtd_estoque = $request->qtd_estoque;
-        $produto->valor_unitario = $request->valor_unitario;
-        $produto->situacao_produto = $request->situacao_produto;
-        $produto->save();
+        $produto = self::getProdutosService()->store($request);
         return response()->json($produto);
     }
 
@@ -76,12 +79,7 @@ class Produtos extends Controller
      */
     public function update(Request $request, $id)
     {
-        $produto = ProdutosModel::find($id);
-        $produto->nome = $request->nome;
-        $produto->qtd_estoque = $request->qtd_estoque;
-        $produto->valor_unitario = $request->valor_unitario;
-        $produto->situacao_produto = $request->situacao_produto;
-        $produto->save();
+       $produto = self::getProdutosService()->update($request,$id);
         return response()->json($produto);
     }
 
@@ -93,8 +91,13 @@ class Produtos extends Controller
      */
     public function destroy($id)
     {
-        $produto = ProdutosModel::destroy($id);
+        $produto = self::getProdutosService()->destroy($id);
         return response()->json($produto);
 
+    }
+
+    public function getProdutosService()
+    {
+        return $this->produtosService;
     }
 }

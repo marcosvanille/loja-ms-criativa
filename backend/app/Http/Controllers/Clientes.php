@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\produtos as ProdutosModel;
 use App\Services\ClientesService;
 use Illuminate\Http\Request;
 use App\Models\clientes as ClientesModel;
