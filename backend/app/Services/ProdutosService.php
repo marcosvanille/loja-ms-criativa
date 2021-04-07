@@ -16,7 +16,8 @@ class ProdutosService
 
     public function index()
     {
-        $this->getProdutosRepository()->index();
+        return self::getProdutosRepository()->index();
+
     }
 
     public function store($request)
@@ -36,7 +37,7 @@ class ProdutosService
     }
 
     public function getProdutosRepository()
-{
-    return $this->produtosRepository;
-}
+    {
+        return $this->produtosRepository;
+    }
 }
